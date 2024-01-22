@@ -5,10 +5,11 @@ import React from "react";
 const initialState = {
   name: "",
   email: "",
+  subject: "",
   message: "",
 };
 export const Contact = (props) => {
-  const [{ name, email, message }, setState] = useState(initialState);
+  const [{ name, email, subject, message }, setState] = useState(initialState);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,10 +17,9 @@ export const Contact = (props) => {
   };
   const clearState = () => setState({ ...initialState });
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name, email, message);
+    console.log(name, email, subject, message);
 
     {/* replace below with your own Service ID, Template ID and Public Key from your EmailJS account */ }
 
@@ -75,6 +75,34 @@ export const Contact = (props) => {
                         required
                         onChange={handleChange}
                       />
+                      <p className="help-block text-danger"></p>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <select
+                        id="subject"
+                        name="subject"
+                        className="form-control"
+                        placeholder="Subject"
+                        required
+                        onChange={handleChange}
+                      >
+                        <option value="Sales">Sales</option>
+                        <option value="Support">Support</option>
+                        <option value="Employment">Employment</option>
+                      </select>
+                      {/* <input
+                        type="text"
+                        id="subject"
+                        name="subject"
+                        className="form-control"
+                        placeholder="Subject"
+                        required
+                        onChange={handleChange}
+                      /> */}
                       <p className="help-block text-danger"></p>
                     </div>
                   </div>
@@ -155,10 +183,7 @@ export const Contact = (props) => {
       <div id="footer">
         <div className="container text-center">
           <p>
-            &copy; 2023 Issaaf Kattan React Land Page Template. Design by{" "}
-            <a href="http://www.templatewire.com" rel="nofollow">
-              TemplateWire
-            </a>
+            &copy; {new Date().getFullYear()} Neyaatek. All rights reserved. Designed & built in India.
           </p>
         </div>
       </div>
