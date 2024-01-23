@@ -1,6 +1,9 @@
 import React from "react";
 
 export const Features = (props) => {
+  const handleClick = (e) => {
+
+  }
   return (
     <div id="features" className="text-center">
       <div className="container">
@@ -11,11 +14,13 @@ export const Features = (props) => {
           {props.data
             ? props.data.map((d, i) => (
               <div key={`${d.title}-${i}`} className={"col-xs-12 col-md-6"}>
-                {" "}
-                <i className={d.icon}></i>
-                <h3>{d.title}</h3>
-                <p>{d.text}</p>
-                {i === 2 && <br />}
+                <a href={d.title === 'Rafflera' ? 'https://rafflera.web.app/' : 'https://www.playfuturetraders.com/'} target='_blank' style={{ color: '#777' }}>
+                  {" "}
+                  <i className={d.icon}></i>
+                  <h3>{d.title}</h3>
+                  <p>{d.text}</p>
+                  {i === 2 && <br />}
+                </a>
               </div>
             ))
             : "Loading..."}
