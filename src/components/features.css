@@ -1,0 +1,15 @@
+.feature-img {
+  margin-bottom: 20px;
+  transition: all 0.5s;
+  color: #fff;
+  width: 170px;
+  height: 150px;
+  padding: 25px;
+  border-radius: 10px;
+  background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.05);
+}
+
+.feature-img:hover {
+  padding: 15px;
+}
