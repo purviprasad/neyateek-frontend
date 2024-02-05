@@ -1,13 +1,14 @@
 import React from "react";
 
 export const Header = (props) => {
+
   return (
     <header id="header">
       <div className="intro">
         <div className="overlay">
           <div className="container">
             <div className="row">
-              <div className="col-md-8 col-md-offset-2 intro-text">
+              <div className="col-md-8 col-md-offset-2 intro-text animate__animated animate__slideInLeft">
                 <h2>
                   {props.data ? props.data.title : "Loading"}
                   <span></span>

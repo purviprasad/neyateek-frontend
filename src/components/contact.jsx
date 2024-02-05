@@ -1,7 +1,7 @@
 import { useState } from "react";
 import emailjs from "emailjs-com";
 import React from "react";
-
+import VisibilitySensor from 'react-visibility-sensor';
 const initialState = {
   name: "",
   email: "",
@@ -9,6 +9,13 @@ const initialState = {
   message: "",
 };
 export const Contact = (props) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const onChange = (visibility) => {
+    if (visibility) {
+      setIsVisible(true);
+    }
+  };
   const [{ name, email, subject, message }, setState] = useState(initialState);
 
   const handleChange = (e) => {
@@ -37,64 +44,66 @@ export const Contact = (props) => {
   };
   return (
     <div>
-      <div id="contact">
-        <div className="container">
-          <div className="col-md-8">
-            <div className="row">
-              <div className="section-title">
-                <h2>Get In Touch</h2>
-                <p>
-                  Please fill out the form below to send us an email and we will
-                  get back to you as soon as possible.
-                </p>
-              </div>
-              <form name="sentMessage" validate onSubmit={handleSubmit}>
+      <VisibilitySensor onChange={onChange} partialVisibility>
+        <div>
+          <div id="contact">
+            <div className="container">
+              <div className="col-md-8">
                 <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        className="form-control"
-                        placeholder="Name"
-                        required
-                        onChange={handleChange}
-                      />
-                      <p className="help-block text-danger"></p>
-                    </div>
+                  <div className={`section-title ${isVisible ? 'animate__animated animate__slideInUp' : ''}`}>
+                    <h2>Get In Touch</h2>
+                    <p>
+                      Please fill out the form below to send us an email and we will
+                      get back to you as soon as possible.
+                    </p>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        className="form-control"
-                        placeholder="Email"
-                        required
-                        onChange={handleChange}
-                      />
-                      <p className="help-block text-danger"></p>
+                  <form name="sentMessage" className={isVisible ? "animate__animated animate__slideInUp" : ""} validate onSubmit={handleSubmit}>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            className="form-control"
+                            placeholder="Name"
+                            required
+                            onChange={handleChange}
+                          />
+                          <p className="help-block text-danger"></p>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            className="form-control"
+                            placeholder="Email"
+                            required
+                            onChange={handleChange}
+                          />
+                          <p className="help-block text-danger"></p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <div className="form-group">
-                      <select
-                        id="subject"
-                        name="subject"
-                        className="form-control"
-                        placeholder="Subject"
-                        required
-                        onChange={handleChange}
-                      >
-                        <option value="Sales">Sales</option>
-                        <option value="Support">Support</option>
-                        <option value="Employment">Employment</option>
-                      </select>
-                      {/* <input
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <select
+                            id="subject"
+                            name="subject"
+                            className="form-control"
+                            placeholder="Subject"
+                            required
+                            onChange={handleChange}
+                          >
+                            <option value="Sales">Sales</option>
+                            <option value="Support">Support</option>
+                            <option value="Employment">Employment</option>
+                          </select>
+                          {/* <input
                         type="text"
                         id="subject"
                         name="subject"
@@ -103,42 +112,42 @@ export const Contact = (props) => {
                         required
                         onChange={handleChange}
                       /> */}
+                          <p className="help-block text-danger"></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <textarea
+                        name="message"
+                        id="message"
+                        className="form-control"
+                        rows="4"
+                        placeholder="Message"
+                        required
+                        onChange={handleChange}
+                      ></textarea>
                       <p className="help-block text-danger"></p>
                     </div>
-                  </div>
+                    <div id="success"></div>
+                    <button type="submit" className="btn btn-custom btn-lg">
+                      Send Message
+                    </button>
+                  </form>
                 </div>
-                <div className="form-group">
-                  <textarea
-                    name="message"
-                    id="message"
-                    className="form-control"
-                    rows="4"
-                    placeholder="Message"
-                    required
-                    onChange={handleChange}
-                  ></textarea>
-                  <p className="help-block text-danger"></p>
+              </div>
+              <div className="col-md-3 col-md-offset-1 contact-info">
+                <div className={isVisible ? "contact-item animate__animated animate__slideInUp" : "contact-item"}>
+                  <h3>Contact Info</h3>
+                  <p>
+                    <span>
+                      <i className="fa fa-map-marker"></i> Address
+                    </span>
+                    {props.data ? props.data.address1 : "loading"}
+                    <br />
+                    {props.data ? props.data.address2 : "loading"}
+                  </p>
                 </div>
-                <div id="success"></div>
-                <button type="submit" className="btn btn-custom btn-lg">
-                  Send Message
-                </button>
-              </form>
-            </div>
-          </div>
-          <div className="col-md-3 col-md-offset-1 contact-info">
-            <div className="contact-item">
-              <h3>Contact Info</h3>
-              <p>
-                <span>
-                  <i className="fa fa-map-marker"></i> Address
-                </span>
-                {props.data ? props.data.address1 : "loading"}
-                <br />
-                {props.data ? props.data.address2 : "loading"}
-              </p>
-            </div>
-            {/* <div className="contact-item">
+                {/* <div className="contact-item">
               <p>
                 <span>
                   <i className="fa fa-phone"></i> Phone
@@ -146,47 +155,49 @@ export const Contact = (props) => {
                 {props.data ? props.data.phone : "loading"}
               </p>
             </div> */}
-            <div className="contact-item">
-              <p>
-                <span>
-                  <i className="fa fa-envelope-o"></i> Email
-                </span>{" "}
-                {props.data ? props.data.email : "loading"}
-              </p>
-            </div>
-          </div>
-          <div className="col-md-12">
-            <div className="row">
-              <div className="social">
-                <ul>
-                  <li>
-                    <a href={props.data ? props.data.facebook : "/"}>
-                      <i className="fa fa-facebook"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href={props.data ? props.data.twitter : "/"}>
-                      <i className="fa fa-twitter"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href={props.data ? props.data.youtube : "/"}>
-                      <i className="fa fa-youtube"></i>
-                    </a>
-                  </li>
-                </ul>
+                <div className={isVisible ? "contact-item animate__animated animate__slideInUp" : "contact-item"}>
+                  <p>
+                    <span>
+                      <i className="fa fa-envelope-o"></i> Email
+                    </span>{" "}
+                    {props.data ? props.data.email : "loading"}
+                  </p>
+                </div>
+              </div>
+              <div className="col-md-12">
+                <div className="row">
+                  <div className="social">
+                    <ul>
+                      <li>
+                        <a href={props.data ? props.data.facebook : "/"}>
+                          <i className="fa fa-facebook"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href={props.data ? props.data.twitter : "/"}>
+                          <i className="fa fa-twitter"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href={props.data ? props.data.youtube : "/"}>
+                          <i className="fa fa-youtube"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+          <div id="footer">
+            <div className="container text-center">
+              <p>
+                &copy; {new Date().getFullYear()} Neyaatek. All rights reserved. Designed & built in India.
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div id="footer">
-        <div className="container text-center">
-          <p>
-            &copy; {new Date().getFullYear()} Neyaatek. All rights reserved. Designed & built in India.
-          </p>
-        </div>
-      </div>
+      </VisibilitySensor>
     </div>
   );
 };
